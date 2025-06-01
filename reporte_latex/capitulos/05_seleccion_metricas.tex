@@ -1,0 +1,187 @@
+\chapter{Selección de Métricas}
+
+\section{Fundamentos para la Selección de Métricas}
+La selección de métricas adecuadas es crucial para garantizar que el dashboard PLANEA proporcione información significativa, comparable y útil para la toma de decisiones. Este proceso se enfrentó al desafío particular de la diferencia estructural entre los datos de 2015-2017 y 2022.
+
+\subsection{Criterios de Selección}
+Las métricas seleccionadas debían cumplir con los siguientes criterios:
+
+\begin{itemize}
+    \item \textbf{Validez educativa}: Reflejar aspectos fundamentales del aprendizaje y el logro académico.
+    \item \textbf{Calculabilidad}: Poder derivarse de los datos disponibles para todos los períodos de interés.
+    \item \textbf{Interpretabilidad}: Ser comprensibles para los diferentes usuarios del dashboard.
+    \item \textbf{Comparabilidad}: Permitir, en la medida de lo posible, comparaciones entre diferentes años, entidades y tipos de escuela.
+    \item \textbf{Sensibilidad}: Captar variaciones significativas en el desempeño educativo.
+\end{itemize}
+
+\section{Métricas para Datos 2015-2017}
+Para los datos de 2015-2017, la estructura original permitía calcular métricas basadas en la distribución de estudiantes por niveles de logro.
+
+\subsection{Porcentaje Satisfactorio}
+La métrica principal seleccionada fue el \textbf{Porcentaje Satisfactorio}, definido como:
+
+\begin{equation}
+\text{Porcentaje Satisfactorio} = \text{\% Nivel III} + \text{\% Nivel IV}
+\end{equation}
+
+\begin{itemize}
+    \item \textbf{Justificación}: Esta métrica representa el porcentaje de estudiantes que han alcanzado o superado el nivel considerado satisfactorio según los estándares educativos nacionales.
+    \item \textbf{Ventajas}: Es una métrica sintética que facilita comparaciones, está alineada con los objetivos educativos nacionales, y es fácilmente interpretable.
+    \item \textbf{Implementación}: Se calculó mediante la función \texttt{calcular\_porcentaje\_satisfactorio} en el módulo \texttt{utils.py}.
+\end{itemize}
+
+\subsection{Otras Métricas Complementarias}
+Además del porcentaje satisfactorio, se incluyeron otras métricas complementarias:
+
+\begin{itemize}
+    \item \textbf{Distribución completa por niveles}: Visualización de los porcentajes en cada uno de los cuatro niveles.
+    \item \textbf{Cambio porcentual interanual}: Cálculo de la variación entre años consecutivos.
+    \item \textbf{Brecha con el promedio nacional}: Diferencia entre el valor de una entidad y el promedio nacional.
+\end{itemize}
+
+Estas métricas enriquecen el análisis al proporcionar diferentes perspectivas sobre el desempeño educativo.
+
+\section{Desafío de los Datos 2022}
+Los datos de 2022 presentaron un desafío significativo debido a su estructura diferente, sin información sobre niveles de logro.
+
+\subsection{Análisis del Problema}
+Al examinar los datos de 2022, se identificaron las siguientes características y limitaciones:
+
+\begin{itemize}
+    \item Ausencia de variables \texttt{\% NIVEL I}, \texttt{\% NIVEL II}, \texttt{\% NIVEL III} y \texttt{\% NIVEL IV}.
+    \item Presencia de variables de calificación directa: \texttt{CALIF LENGUAJE} y \texttt{CALIF MATEMATICAS}.
+    \item Imposibilidad de calcular directamente el porcentaje satisfactorio con la misma metodología de 2015-2017.
+\end{itemize}
+
+\subsection{Alternativas Consideradas}
+Se evaluaron diferentes alternativas para abordar este desafío:
+
+\begin{enumerate}
+    \item \textbf{Exclusión de datos 2022}: Limitar el análisis a 2015-2017.
+    \item \textbf{Análisis separado}: Mantener análisis completamente independientes para cada período.
+    \item \textbf{Estimación indirecta}: Intentar estimar niveles a partir de calificaciones mediante algún modelo.
+    \item \textbf{Métricas alternativas}: Desarrollar una métrica alternativa para 2022 que permita algún grado de comparación.
+\end{enumerate}
+
+Tras evaluar estas opciones, se seleccionó la última por ofrecer el mejor balance entre inclusión de datos recientes y transparencia metodológica.
+
+\section{Métrica Alternativa para 2022}
+Para los datos de 2022, se diseñó una métrica alternativa basada en las calificaciones directas disponibles.
+
+\subsection{Promedio de Calificaciones}
+La métrica seleccionada fue el \textbf{Promedio de Calificaciones}, definida como:
+
+\begin{equation}
+\text{Promedio de Calificaciones} = \frac{\text{CALIF LENGUAJE} + \text{CALIF MATEMATICAS}}{2}
+\end{equation}
+
+\begin{itemize}
+    \item \textbf{Justificación}: Aunque conceptualmente diferente del porcentaje satisfactorio, esta métrica representa el nivel general de desempeño y permite ordenar entidades y tipos de escuela según su rendimiento.
+    \item \textbf{Limitaciones}: No es directamente comparable con el porcentaje satisfactorio de 2015-2017, ya que representa una escala y concepto diferentes.
+\end{itemize}
+
+\subsection{Implementación Técnica}
+La implementación se realizó extendiendo la función \texttt{calcular\_porcentaje\_satisfactorio} para manejar ambos tipos de datos:
+
+\begin{lstlisting}[language=Python, caption=Implementación de métrica alternativa para 2022]
+def calcular_porcentaje_satisfactorio(df, tipo="LENGUAJE"):
+    # Intenta buscar columnas de nivel para datos 2015-2017
+    nivel3_col = _buscar_columnas_por_nivel(df, tipo, "NIVEL III")
+    nivel4_col = _buscar_columnas_por_nivel(df, tipo, "NIVEL IV")
+    
+    if nivel3_col and nivel4_col:
+        # Cálculo para datos 2015-2017
+        return df[nivel3_col].mean() + df[nivel4_col].mean()
+    else:
+        # Cálculo alternativo para datos 2022
+        calif_cols = [col for col in df.columns if 'CALIF' in col and tipo in col]
+        if calif_cols:
+            return df[calif_cols].mean().mean()
+        return 0
+\end{lstlisting}
+
+Esta implementación permite que la misma función procese ambos tipos de datos, facilitando la integración en el dashboard.
+
+\section{Transparencia y Comunicación}
+Dada la diferencia conceptual entre las métricas utilizadas para diferentes períodos, se implementaron diversas estrategias para garantizar una comunicación clara y evitar interpretaciones erróneas.
+
+\subsection{Etiquetado Diferenciado}
+Se utilizaron etiquetas específicas para cada métrica en las visualizaciones:
+
+\begin{itemize}
+    \item Para 2015-2017: "Porcentaje satisfactorio (\% Nivel III + IV)"
+    \item Para 2022: "Promedio de calificaciones"
+\end{itemize}
+
+\subsection{Advertencias Visuales}
+Se implementaron advertencias explícitas en el dashboard:
+
+\begin{lstlisting}[language=Python, caption=Implementación de advertencias]
+if anio_seleccionado == 2022:
+    st.warning("Nota: Para 2022, los valores mostrados representan calificaciones promedio, no porcentajes de niveles satisfactorios como en años anteriores.")
+\end{lstlisting}
+
+\subsection{Notas Explicativas}
+Se incluyeron notas explicativas detallando:
+
+\begin{itemize}
+    \item Las diferencias metodológicas entre los períodos
+    \item Las limitaciones de comparabilidad directa
+    \item La interpretación correcta de cada métrica
+\end{itemize}
+
+\section{Indicadores Clave de Desempeño (KPIs)}
+A partir de las métricas base, se diseñaron KPIs específicos para el dashboard que proporcionan información sintética y relevante.
+
+\subsection{KPIs Principales}
+Los KPIs principales implementados fueron:
+
+\begin{enumerate}
+    \item \textbf{Porcentaje/Calificación Actual}: Valor actual del indicador para la selección.
+    \item \textbf{Cambio Anual}: Variación respecto al año anterior.
+    \item \textbf{Tendencia}: Dirección y magnitud del cambio en los últimos años disponibles.
+    \item \textbf{Comparación con Promedio Nacional}: Diferencia porcentual con la media nacional.
+    \item \textbf{Ranking}: Posición relativa entre las 32 entidades federativas.
+\end{enumerate}
+
+\subsection{Visualización de KPIs}
+Los KPIs se presentaron mediante tarjetas métricas con las siguientes características:
+
+\begin{itemize}
+    \item Valor principal destacado
+    \item Indicadores de delta (positivo/negativo)
+    \item Código de colores (verde para mejora, rojo para deterioro)
+    \item Etiqueta descriptiva adaptada según el año y tipo de dato
+\end{itemize}
+
+\section{Evaluación de la Efectividad de las Métricas}
+Para validar la efectividad de las métricas seleccionadas, se realizaron diversos análisis y pruebas.
+
+\subsection{Validación de Consistencia}
+Se verificó que las métricas produjeran resultados consistentes con otras fuentes de información sobre desempeño educativo, como:
+
+\begin{itemize}
+    \item Reportes oficiales del INEE
+    \item Estudios académicos sobre calidad educativa
+    \item Tendencias históricas documentadas
+\end{itemize}
+
+\subsection{Pruebas de Usuario}
+Se realizaron pruebas con usuarios potenciales para evaluar:
+
+\begin{itemize}
+    \item Comprensibilidad de las métricas
+    \item Utilidad para la toma de decisiones
+    \item Claridad en la diferenciación entre métricas de diferentes períodos
+\end{itemize}
+
+\subsection{Ajustes Realizados}
+Basado en estas evaluaciones, se realizaron ajustes como:
+
+\begin{itemize}
+    \item Refinamiento de etiquetas y descripciones
+    \item Mejora de la visibilidad de advertencias
+    \item Inclusión de información contextual adicional
+\end{itemize}
+
+En conclusión, la selección de métricas para el dashboard PLANEA representa un balance entre rigor metodológico, aprovechamiento de los datos disponibles y transparencia en la comunicación, permitiendo un análisis significativo del desempeño educativo a pesar de los cambios en la estructura de datos entre diferentes períodos de evaluación.

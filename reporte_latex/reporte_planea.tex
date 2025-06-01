@@ -1,0 +1,125 @@
+% Reporte técnico: Dashboard PLANEA - Análisis Completo
+% Autor: [Tu Nombre]
+% Fecha: Junio 2025
+
+\documentclass[12pt]{report}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{float}
+
+\geometry{margin=2.5cm}
+\graphicspath{{./imagenes/}}
+
+% Configuración de colores para código
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% Configurar estilo de código
+\lstdefinestyle{pythonstyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=pythonstyle}
+
+% Encabezado y pie de página
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Dashboard PLANEA}
+\fancyhead[R]{\thepage}
+\fancyfoot[C]{Reporte Técnico}
+
+\title{\Huge{Reporte Técnico:\\Dashboard PLANEA - Análisis Educativo Completo}}
+\author{[Tu Nombre]}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+% Resumen ejecutivo
+\begin{abstract}
+    Este reporte documenta el proceso completo de diseño, desarrollo e implementación del Dashboard PLANEA para el análisis de resultados educativos en México. Se detalla la justificación técnica de las métricas seleccionadas, el procesamiento de datos, las visualizaciones implementadas y las consideraciones especiales para la comparabilidad entre diferentes años (2015-2017 y 2022).
+    
+    El dashboard permite explorar los resultados por entidad federativa, año, materia y tipo de escuela, ofreciendo métricas de desempeño y visualizaciones interactivas para apoyar la toma de decisiones en el ámbito educativo.
+\end{abstract}
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+% Incluir capítulos separados
+\include{capitulos/01_introduccion}
+\include{capitulos/02_marco_teorico}
+\include{capitulos/03_datos_fuentes}
+\include{capitulos/04_preprocesamiento}
+\include{capitulos/05_seleccion_metricas}
+\include{capitulos/06_arquitectura}
+\include{capitulos/07_visualizacion}
+\include{capitulos/08_resultados}
+\include{capitulos/09_limitaciones}
+\include{capitulos/10_conclusiones}
+
+% Bibliografía
+\begin{thebibliography}{9}
+
+\bibitem{planea} 
+  INEE. 
+  \textit{Plan Nacional para la Evaluación de los Aprendizajes (PLANEA)}. 
+  Instituto Nacional para la Evaluación de la Educación, 
+  México, 2015-2018.
+
+\bibitem{streamlit} 
+  Streamlit. 
+  \textit{Streamlit Documentation}. 
+  \url{https://docs.streamlit.io/}, 
+  2023.
+
+\bibitem{pandas} 
+  Pandas Development Team. 
+  \textit{pandas: powerful Python data analysis toolkit}. 
+  \url{https://pandas.pydata.org/}, 
+  2023.
+
+\bibitem{plotly} 
+  Plotly Technologies Inc. 
+  \textit{Collaborative data science}. 
+  \url{https://plotly.com/}, 
+  2023.
+
+\end{thebibliography}
+
+% Apéndices
+\appendix
+\chapter{Código Fuente Completo}
+\chapter{Estructura de Datos}
+\chapter{Manual de Usuario}
+
+\end{document}

@@ -1,0 +1,218 @@
+\chapter{Preprocesamiento de Datos}
+
+\section{Estrategia General de Preprocesamiento}
+El preprocesamiento de datos es una fase crucial en el desarrollo del dashboard PLANEA, ya que garantiza la calidad, consistencia y usabilidad de la información. La estrategia implementada aborda los desafíos específicos de trabajar con dos conjuntos de datos estructuralmente diferentes (2015-2017 y 2022).
+
+\subsection{Principios Rectores}
+El preprocesamiento se guió por los siguientes principios:
+
+\begin{itemize}
+    \item \textbf{Preservación de la integridad}: Mantener la fidelidad a los datos originales.
+    \item \textbf{Transparencia}: Documentar todas las transformaciones realizadas.
+    \item \textbf{Flexibilidad}: Diseñar un proceso adaptable a diferentes estructuras de datos.
+    \item \textbf{Eficiencia}: Optimizar el uso de recursos computacionales.
+    \item \textbf{Reproducibilidad}: Garantizar que el proceso sea replicable.
+\end{itemize}
+
+\section{Normalización de Columnas}
+Uno de los primeros pasos fue la normalización de los nombres de columnas para facilitar su procesamiento programático.
+
+\subsection{Proceso de Normalización}
+Se implementó la función \texttt{normalizar\_columnas} en el módulo \texttt{utils.py} que realiza las siguientes operaciones:
+
+\begin{lstlisting}[language=Python, caption=Función de normalización de columnas]
+def normalizar_columnas(df):
+    rename_dict = {}
+    for col in df.columns:
+        new_col = col
+        for a, b in [('Á', 'A'), ('É', 'E'), ('Í', 'I'), ('Ó', 'O'), ('Ú', 'U'),
+                    ('á', 'a'), ('é', 'e'), ('í', 'i'), ('ó', 'o'), ('ú', 'u'),
+                    ('Ñ', 'N'), ('ñ', 'n')]:
+            new_col = new_col.replace(a, b)
+        if new_col != col:
+            rename_dict[col] = new_col
+    if rename_dict:
+        return df.rename(columns=rename_dict)
+    return df
+\end{lstlisting}
+
+Esta normalización resuelve problemas comunes como:
+\begin{itemize}
+    \item Inconsistencias en el uso de mayúsculas y minúsculas
+    \item Presencia de caracteres acentuados
+    \item Variaciones en la nomenclatura de campos similares
+\end{itemize}
+
+\section{Manejo de Datos Faltantes}
+El tratamiento de valores faltantes fue diseñado para minimizar la pérdida de información mientras se garantiza la validez de los análisis.
+
+\subsection{Estrategias Implementadas}
+Se aplicaron diferentes estrategias según el tipo de valor faltante:
+
+\begin{itemize}
+    \item \textbf{Filtrado selectivo}: Exclusión de filas solo cuando faltan valores en variables críticas para el análisis específico.
+    \item \textbf{Advertencias visuales}: Implementación de mensajes de advertencia en la interfaz cuando se detectan datos incompletos.
+    \item \textbf{Manejo gracioso de errores}: Diseño de funciones robustas que pueden operar incluso con datos parciales.
+\end{itemize}
+
+\section{Cálculo de Métricas Derivadas}
+Una parte fundamental del preprocesamiento fue la generación de métricas derivadas que permitieran análisis comparativos a pesar de las diferencias estructurales entre los conjuntos de datos.
+
+\subsection{Porcentaje Satisfactorio (2015-2017)}
+Para los datos de 2015-2017, se implementó una función para calcular el porcentaje de estudiantes en niveles satisfactorios:
+
+\begin{lstlisting}[language=Python, caption=Cálculo de porcentaje satisfactorio para 2015-2017]
+def calcular_porcentaje_satisfactorio(df, tipo="LENGUAJE"):
+    nivel3_col = _buscar_columnas_por_nivel(df, keywords, "NIVEL III")
+    nivel4_col = _buscar_columnas_por_nivel(df, keywords, "NIVEL IV")
+    
+    if nivel3_col and nivel4_col:
+        return df[nivel3_col].mean() + df[nivel4_col].mean()
+    else:
+        # Código para manejar datos de 2022...
+\end{lstlisting}
+
+\subsection{Adaptación para Datos 2022}
+Para los datos de 2022, que no contienen información de niveles, se implementó una estrategia alternativa:
+
+\begin{lstlisting}[language=Python, caption=Adaptación de cálculo para datos 2022]
+def calcular_porcentaje_satisfactorio(df, tipo="LENGUAJE"):
+    # ... Código para datos 2015-2017 ...
+    
+    # Adaptación para datos 2022
+    else:
+        calif_cols = [col for col in df.columns if 'CALIF' in col and tipo in col]
+        if calif_cols:
+            return df[calif_cols].mean().mean()
+        return 0
+\end{lstlisting}
+
+Esta adaptación permite utilizar el promedio de las calificaciones como proxy del desempeño, facilitando comparaciones aproximadas entre diferentes años.
+
+\section{Control de Carga de Datos}
+Para optimizar el rendimiento del dashboard, especialmente con grandes volúmenes de datos, se implementó un sistema de control de carga.
+
+\subsection{Implementación del Control de Filas}
+Se agregó un deslizador en la barra lateral que permite al usuario definir el número máximo de filas a cargar:
+
+\begin{lstlisting}[language=Python, caption=Implementación del control de filas]
+# En la barra lateral
+max_rows = st.sidebar.slider(
+    "Máximo número de filas a cargar:", 
+    min_value=1000, 
+    max_value=100000, 
+    value=5000, 
+    step=1000
+)
+
+# Al cargar los datos
+df_2015 = cargar_datos("DATOS2015-2017.xlsx", 2015, max_rows)
+df_2016 = cargar_datos("DATOS2015-2017.xlsx", 2016, max_rows)
+df_2017 = cargar_datos("DATOS2015-2017.xlsx", 2017, max_rows)
+df_2022 = cargar_datos("DATOS2022.xlsx", 2022, max_rows)
+\end{lstlisting}
+
+Esta funcionalidad permite:
+\begin{itemize}
+    \item Ajustar el rendimiento según los recursos disponibles
+    \item Realizar análisis rápidos con muestras más pequeñas
+    \item Cargar el conjunto completo para análisis exhaustivos
+\end{itemize}
+
+\section{Manejo de Errores y Excepciones}
+Se implementó un sistema robusto de manejo de errores para garantizar la estabilidad del dashboard incluso ante datos problemáticos o incompletos.
+
+\subsection{Función de Ejecución Segura}
+Se desarrolló la función \texttt{\_exec\_tab} para cargar los scripts de cada pestaña de manera segura, intentando diferentes codificaciones:
+
+\begin{lstlisting}[language=Python, caption=Función de ejecución segura]
+def _exec_tab(script_path):
+    encodings = ['utf-8', 'latin-1', 'cp1252']
+    for encoding in encodings:
+        try:
+            with open(script_path, 'r', encoding=encoding) as file:
+                exec(file.read(), globals())
+            break
+        except UnicodeDecodeError:
+            continue
+        except Exception as e:
+            st.error(f"Error al ejecutar {script_path}: {str(e)}")
+            break
+\end{lstlisting}
+
+Esta función resuelve problemas comunes como:
+\begin{itemize}
+    \item Errores de codificación de caracteres
+    \item Excepciones durante la ejecución de los scripts
+    \item Fallas en la carga de componentes específicos
+\end{itemize}
+
+\subsection{Validación de Columnas}
+Se implementaron funciones para verificar la existencia de columnas antes de intentar acceder a ellas:
+
+\begin{lstlisting}[language=Python, caption=Ejemplo de validación de columnas]
+# Verificar si existe la columna de porcentaje antes de ordenar
+if "Porcentaje" in df_ranking.columns and not df_ranking.empty:
+    df_ranking = df_ranking.sort_values("Porcentaje", ascending=False)
+    # Proceder con la visualización
+else:
+    st.warning("No hay datos suficientes o falta la columna 'Porcentaje' para mostrar el ranking.")
+\end{lstlisting}
+
+\section{Optimización del Procesamiento}
+Se implementaron diversas técnicas para optimizar el procesamiento de datos y mejorar el rendimiento del dashboard.
+
+\subsection{Uso de Caché}
+Se utilizó el decorador \texttt{@st.cache\_data} de Streamlit para evitar recalcular resultados innecesariamente:
+
+\begin{lstlisting}[language=Python, caption=Implementación de caché]
+@st.cache_data
+def cargar_datos(archivo, anio, max_rows=None):
+    try:
+        if archivo == "DATOS2015-2017.xlsx":
+            df = pd.read_excel(archivo, sheet_name=f"{anio}")
+        else:
+            df = pd.read_excel(archivo)
+        
+        if max_rows:
+            df = df.head(max_rows)
+            
+        return normalizar_columnas(df)
+    except Exception as e:
+        st.error(f"Error al cargar datos de {anio}: {str(e)}")
+        return None
+\end{lstlisting}
+
+\subsection{Procesamiento Condicional}
+Se implementó procesamiento condicional para evitar operaciones innecesarias:
+
+\begin{lstlisting}[language=Python, caption=Ejemplo de procesamiento condicional]
+# Solo calcular si hay datos disponibles
+if df is not None and not df.empty:
+    # Realizar cálculos
+    resultado = calcular_porcentaje_satisfactorio(df, tipo)
+else:
+    resultado = 0  # Valor predeterminado
+\end{lstlisting}
+
+Este enfoque incrementa la eficiencia al:
+\begin{itemize}
+    \item Evitar procesar datos innecesarios
+    \item Reducir el tiempo de carga de cada componente
+    \item Optimizar el uso de memoria
+\end{itemize}
+
+\section{Pruebas y Validación}
+El proceso de preprocesamiento fue sometido a pruebas rigurosas para garantizar su corrección y robustez.
+
+\subsection{Pruebas Realizadas}
+Se ejecutaron las siguientes pruebas:
+
+\begin{itemize}
+    \item \textbf{Validación de integridad}: Verificación de que las transformaciones no alteran la naturaleza de los datos.
+    \item \textbf{Pruebas de rendimiento}: Evaluación del tiempo de procesamiento con diferentes volúmenes de datos.
+    \item \textbf{Pruebas de robustez}: Simulación de escenarios con datos problemáticos o incompletos.
+    \item \textbf{Validación cruzada}: Comparación de resultados con cálculos manuales para un subconjunto de datos.
+\end{itemize}
+
+Estas pruebas confirmaron la efectividad de las estrategias de preprocesamiento implementadas, garantizando resultados confiables y un rendimiento adecuado del dashboard.

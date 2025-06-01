@@ -1,0 +1,143 @@
+\chapter{Datos y Fuentes}
+
+\section{Descripción de las Fuentes de Datos}
+Para el desarrollo del dashboard PLANEA, se utilizaron dos fuentes de datos principales, proporcionadas por las autoridades educativas de México:
+
+\begin{itemize}
+    \item \textbf{DATOS2015-2017.xlsx}: Contiene los resultados de PLANEA para los años 2015, 2016 y 2017.
+    \item \textbf{DATOS2022.xlsx}: Contiene los resultados de PLANEA para el año 2022.
+\end{itemize}
+
+Estos archivos representan conjuntos de datos oficiales con información detallada sobre el desempeño de los estudiantes en las pruebas PLANEA de Lenguaje y Comunicación y Matemáticas.
+
+\section{Estructura de los Datos 2015-2017}
+
+\subsection{Variables Principales}
+El archivo DATOS2015-2017.xlsx contiene las siguientes variables clave:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|p{4cm}|p{8cm}|}
+\hline
+\textbf{Variable} & \textbf{Descripción} \\
+\hline
+ENTIDAD & Entidad federativa (estado) \\
+\hline
+AÑO & Año de aplicación de la prueba (2015, 2016 o 2017) \\
+\hline
+TIPO DE ESCUELA & Categorización del centro educativo (AUTÓNOMAS, ESTATAL, FEDERAL, PARTICULARES) \\
+\hline
+\% NIVEL I & Porcentaje de estudiantes en nivel insuficiente \\
+\hline
+\% NIVEL II & Porcentaje de estudiantes en nivel apenas indispensable \\
+\hline
+\% NIVEL III & Porcentaje de estudiantes en nivel satisfactorio \\
+\hline
+\% NIVEL IV & Porcentaje de estudiantes en nivel sobresaliente \\
+\hline
+\end{tabular}
+\caption{Variables principales en datos 2015-2017}
+\label{tabla:variables2015}
+\end{table}
+
+\subsection{Características de los Datos}
+Los datos para el período 2015-2017 presentan las siguientes características:
+
+\begin{itemize}
+    \item \textbf{Estructura consistente}: Mantienen el mismo formato y variables a lo largo de los tres años.
+    \item \textbf{Desagregación}: Datos desagregados por entidad federativa, año y tipo de escuela.
+    \item \textbf{Distribución por niveles}: Los resultados se presentan como distribución porcentual de estudiantes en cada nivel de logro.
+    \item \textbf{Completitud}: La mayoría de las entidades y tipos de escuela cuentan con datos para los tres años.
+\end{itemize}
+
+\section{Estructura de los Datos 2022}
+
+\subsection{Variables Principales}
+El archivo DATOS2022.xlsx presenta una estructura diferente, con las siguientes variables clave:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|p{4cm}|p{8cm}|}
+\hline
+\textbf{Variable} & \textbf{Descripción} \\
+\hline
+ENTIDAD & Entidad federativa (estado) \\
+\hline
+TIPO DE ESCUELA & Categorización del centro educativo \\
+\hline
+CALIF LENGUAJE & Calificación promedio en Lenguaje y Comunicación \\
+\hline
+CALIF MATEMATICAS & Calificación promedio en Matemáticas \\
+\hline
+\end{tabular}
+\caption{Variables principales en datos 2022}
+\label{tabla:variables2022}
+\end{table}
+
+\subsection{Diferencias con Datos 2015-2017}
+Los datos de 2022 presentan importantes diferencias estructurales:
+
+\begin{itemize}
+    \item \textbf{Ausencia de niveles}: No incluyen porcentajes de estudiantes por nivel de logro (\% NIVEL I, II, III y IV).
+    \item \textbf{Calificaciones directas}: Presentan calificaciones promedio en escala numérica en lugar de distribuciones porcentuales.
+    \item \textbf{Mismo nivel de desagregación}: Mantienen la desagregación por entidad y tipo de escuela.
+\end{itemize}
+
+Esta diferencia estructural representa uno de los principales desafíos para el análisis comparativo entre los diferentes años, requiriendo estrategias específicas que se detallan en capítulos posteriores.
+
+\section{Calidad y Limitaciones de los Datos}
+
+\subsection{Evaluación de la Calidad}
+Se realizó una evaluación sistemática de la calidad de los datos, considerando:
+
+\begin{itemize}
+    \item \textbf{Completitud}: Verificación de valores faltantes por entidad, año y tipo de escuela.
+    \item \textbf{Consistencia}: Análisis de coherencia interna (por ejemplo, que los porcentajes sumen 100\%).
+    \item \textbf{Exactitud}: Validación de valores extremos o atípicos.
+    \item \textbf{Relevancia}: Evaluación de la pertinencia de las variables disponibles para los objetivos del análisis.
+\end{itemize}
+
+\subsection{Limitaciones Identificadas}
+Durante este proceso, se identificaron algunas limitaciones importantes:
+
+\begin{itemize}
+    \item \textbf{Cambio metodológico}: La diferencia estructural entre los datos 2015-2017 y 2022 limita la comparabilidad directa.
+    \item \textbf{Datos faltantes}: Algunas combinaciones de entidad-año-tipo de escuela no cuentan con información completa.
+    \item \textbf{Nivel de granularidad}: Los datos están agregados a nivel entidad y tipo de escuela, sin permitir análisis a nivel escuela o estudiante.
+    \item \textbf{Variables contextuales}: Limitada información sobre factores socioeconómicos, infraestructura u otros determinantes que podrían enriquecer el análisis.
+\end{itemize}
+
+\section{Estrategia de Carga y Gestión de Datos}
+
+\subsection{Enfoque de Carga}
+Para gestionar eficientemente los datos en el dashboard, se implementó un sistema de carga con las siguientes características:
+
+\begin{itemize}
+    \item \textbf{Control de volumen}: Implementación de un deslizador en la barra lateral que permite al usuario controlar el número máximo de filas cargadas.
+    \item \textbf{Carga selectiva}: Optimización para cargar solo los datos necesarios según las selecciones del usuario.
+    \item \textbf{Caché}: Implementación de mecanismos de caché para evitar recargar datos innecesariamente.
+\end{itemize}
+
+\subsection{Preparación Preliminar}
+Antes de su visualización, los datos pasan por un proceso de preparación que incluye:
+
+\begin{itemize}
+    \item \textbf{Normalización de columnas}: Eliminación de acentos y estandarización de nombres de columnas para facilitar su procesamiento.
+    \item \textbf{Filtrado inicial}: Exclusión de filas con valores nulos en variables críticas.
+    \item \textbf{Transformación de tipos}: Conversión de variables a los tipos de datos apropiados.
+    \item \textbf{Cálculo de métricas derivadas}: Generación de métricas compuestas como el porcentaje satisfactorio.
+\end{itemize}
+
+El código de esta fase de procesamiento se implementa en el archivo \texttt{utils.py}, que incluye funciones de utilidad para la normalización y transformación de los datos.
+
+\section{Consideraciones Éticas}
+En el manejo de estos datos educativos, se han considerado aspectos éticos fundamentales:
+
+\begin{itemize}
+    \item \textbf{Transparencia}: Comunicación clara sobre las fuentes, limitaciones y métodos de procesamiento.
+    \item \textbf{Interpretación responsable}: Presentación de los datos con el contexto necesario para evitar interpretaciones erróneas.
+    \item \textbf{Privacidad}: Trabajo exclusivo con datos agregados que no permiten la identificación de estudiantes individuales.
+    \item \textbf{Accesibilidad}: Diseño orientado a democratizar el acceso a la información educativa.
+\end{itemize}
+
+Estas consideraciones guían tanto el procesamiento técnico como la presentación final de los datos en el dashboard.

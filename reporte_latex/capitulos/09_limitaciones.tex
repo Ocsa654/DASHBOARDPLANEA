@@ -1,0 +1,209 @@
+\chapter{Limitaciones y Consideraciones}
+
+\section{Limitaciones de los Datos}
+Los datos utilizados en el dashboard PLANEA presentan diversas limitaciones que deben tenerse en cuenta al interpretar los resultados y conclusiones derivadas del análisis.
+
+\subsection{Cambios Metodológicos entre Períodos}
+Una de las limitaciones más significativas es la diferencia metodológica entre los períodos 2015-2017 y 2022:
+
+\begin{itemize}
+    \item \textbf{Diferencias en estructura}: Los datos de 2015-2017 presentan información sobre distribución por niveles de logro, mientras que los de 2022 solo proporcionan calificaciones directas.
+    
+    \item \textbf{Cambios en escalas}: La escala utilizada para 2022 no es directamente comparable con los porcentajes de niveles de 2015-2017.
+    
+    \item \textbf{Impacto en comparabilidad}: Estas diferencias limitan severamente la posibilidad de realizar comparaciones directas de desempeño entre ambos períodos.
+\end{itemize}
+
+\subsection{Datos Ausentes}
+El análisis está afectado por la presencia de datos ausentes en diversos contextos:
+
+\begin{itemize}
+    \item \textbf{Ausencia de años intermedios}: No se dispone de datos para 2018-2021, creando un vacío temporal significativo en el análisis longitudinal.
+    
+    \item \textbf{Datos faltantes por entidad}: Algunas entidades presentan datos incompletos para ciertos años o tipos de escuela.
+    
+    \item \textbf{Vacíos en variables contextuales}: Información limitada sobre factores socioeconómicos, recursos escolares y características docentes que podrían enriquecer el análisis.
+\end{itemize}
+
+\subsection{Representatividad}
+Es importante considerar las limitaciones en la representatividad de los datos:
+
+\begin{itemize}
+    \item \textbf{Cobertura incompleta}: Las evaluaciones PLANEA no cubren la totalidad de la población estudiantil, particularmente en zonas remotas o marginadas.
+    
+    \item \textbf{Exclusión de ciertos sectores}: Estudiantes con discapacidades severas, en situación de calle o que han abandonado el sistema educativo no están representados.
+    
+    \item \textbf{Sesgo de participación}: Posible subrepresentación de escuelas con menores recursos o capacidades organizativas para implementar adecuadamente las evaluaciones.
+\end{itemize}
+
+\section{Limitaciones Técnicas del Dashboard}
+
+\subsection{Restricciones de Procesamiento}
+El dashboard enfrenta algunas limitaciones técnicas que afectan su funcionamiento:
+
+\begin{itemize}
+    \item \textbf{Volumen de datos}: El procesamiento de conjuntos completos de datos puede resultar lento en equipos con recursos limitados.
+    
+    \item \textbf{Implementación de caché}: Aunque se implementó caché para mejorar el rendimiento, ciertas operaciones siguen requiriendo recálculo frecuente.
+    
+    \item \textbf{Limitaciones de memoria}: El manejo de grandes volúmenes de datos está restringido por la memoria disponible, requiriendo controles de carga como el limitador de filas.
+\end{itemize}
+
+\subsection{Limitaciones de Visualización}
+Las visualizaciones implementadas presentan ciertas restricciones:
+
+\begin{itemize}
+    \item \textbf{Densidad de información}: Algunas visualizaciones complejas pueden resultar difíciles de interpretar para usuarios no especializados.
+    
+    \item \textbf{Representación geográfica}: Ausencia de visualizaciones geoespaciales detalladas que podrían enriquecer el análisis territorial.
+    
+    \item \textbf{Visualizaciones avanzadas}: Carencia de técnicas de visualización más sofisticadas como análisis de redes, mapas de calor multidimensionales o visualizaciones interactivas complejas.
+\end{itemize}
+
+\subsection{Accesibilidad}
+A pesar de los esfuerzos por mejorar la accesibilidad, persisten algunas limitaciones:
+
+\begin{itemize}
+    \item \textbf{Dependencia visual}: El dashboard depende fundamentalmente de representaciones visuales, lo que puede limitar su utilidad para personas con discapacidad visual.
+    
+    \item \textbf{Complejidad cognitiva}: Algunos análisis requieren conocimientos estadísticos o educativos específicos para su correcta interpretación.
+    
+    \item \textbf{Barreras tecnológicas}: Requiere acceso a dispositivos con capacidades técnicas mínimas y conexión a internet.
+\end{itemize}
+
+\section{Limitaciones Analíticas}
+
+\subsection{Causalidad vs. Correlación}
+Una limitación importante del análisis es la dificultad para establecer relaciones causales:
+
+\begin{itemize}
+    \item \textbf{Correlaciones observadas}: El dashboard identifica numerosas correlaciones entre variables, pero no permite determinar causalidad.
+    
+    \item \textbf{Variables omitidas}: Posible existencia de factores no medidos que podrían explicar las relaciones observadas.
+    
+    \item \textbf{Direccionalidad}: Dificultad para determinar la dirección de influencia en las relaciones identificadas.
+\end{itemize}
+
+\subsection{Granularidad del Análisis}
+El nivel de detalle del análisis está limitado por la estructura de los datos disponibles:
+
+\begin{itemize}
+    \item \textbf{Nivel escolar}: Los datos no permiten análisis a nivel de aula o estudiante individual, que podrían revelar patrones más específicos.
+    
+    \item \textbf{Factores pedagógicos}: Ausencia de información detallada sobre prácticas pedagógicas, metodologías didácticas o experiencia docente.
+    
+    \item \textbf{Contexto local}: Información limitada sobre características específicas del contexto local que pueden influir en los resultados.
+\end{itemize}
+
+\subsection{Complejidad del Fenómeno Educativo}
+El análisis cuantitativo captura solo parcialmente la complejidad del fenómeno educativo:
+
+\begin{itemize}
+    \item \textbf{Dimensiones no académicas}: Aspectos socioemocionales, creatividad, pensamiento crítico y otras dimensiones importantes del aprendizaje no son capturados.
+    
+    \item \textbf{Contexto histórico-cultural}: Limitada consideración de factores históricos, culturales y lingüísticos que influyen en los procesos educativos.
+    
+    \item \textbf{Validez de las pruebas}: Cuestionamientos sobre la capacidad de las pruebas estandarizadas para medir adecuadamente el aprendizaje significativo.
+\end{itemize}
+
+\section{Consideraciones Éticas}
+
+\subsection{Interpretación Responsable}
+Es fundamental promover una interpretación responsable de los resultados:
+
+\begin{itemize}
+    \item \textbf{Riesgo de simplificación}: Los datos cuantitativos pueden llevar a simplificaciones excesivas de fenómenos educativos complejos.
+    
+    \item \textbf{Estigmatización}: Existe el riesgo de estigmatizar a entidades, escuelas o grupos con menor desempeño sin considerar su contexto particular.
+    
+    \item \textbf{Narrativas deterministas}: Es importante evitar narrativas que sugieran un determinismo social o geográfico en el desempeño educativo.
+\end{itemize}
+
+\subsection{Uso de Datos}
+El uso responsable de los datos implica considerar:
+
+\begin{itemize}
+    \item \textbf{Privacidad}: Aunque los datos son agregados, es importante mantener la confidencialidad y evitar identificaciones indirectas.
+    
+    \item \textbf{Consentimiento informado}: Reflexionar sobre si los participantes en las evaluaciones fueron adecuadamente informados sobre los posibles usos de sus datos.
+    
+    \item \textbf{Equidad en el acceso}: Considerar si el acceso a estos análisis está equitativamente distribuido entre diferentes actores educativos.
+\end{itemize}
+
+\subsection{Impacto de las Evaluaciones}
+Es necesario considerar el impacto de las evaluaciones estandarizadas:
+
+\begin{itemize}
+    \item \textbf{Presión sobre actores educativos}: Las evaluaciones pueden generar presiones indebidas sobre docentes y estudiantes.
+    
+    \item \textbf{"Enseñar para la prueba"}: Riesgo de que el currículum se estreche para enfocarse en contenidos evaluados.
+    
+    \item \textbf{Jerarquización}: Las comparaciones pueden reforzar jerarquías existentes entre instituciones educativas.
+\end{itemize}
+
+\section{Trabajo Futuro}
+
+\subsection{Mejoras en Datos}
+Para superar las limitaciones actuales, se podrían implementar las siguientes mejoras:
+
+\begin{itemize}
+    \item \textbf{Integración de nuevas fuentes}: Incorporar datos de otras evaluaciones o registros administrativos para enriquecer el análisis.
+    
+    \item \textbf{Desarrollo de equivalencias}: Investigar y desarrollar métodos estadísticos para establecer equivalencias aproximadas entre las diferentes escalas utilizadas.
+    
+    \item \textbf{Variables contextuales}: Integrar datos socioeconómicos, de infraestructura escolar y características docentes para contextualizar mejor los resultados.
+\end{itemize}
+
+\subsection{Mejoras Técnicas}
+El dashboard podría beneficiarse de diversas mejoras técnicas:
+
+\begin{itemize}
+    \item \textbf{Optimización de rendimiento}: Implementar estrategias más avanzadas de caché y procesamiento paralelo.
+    
+    \item \textbf{Visualizaciones geoespaciales}: Incorporar mapas interactivos que permitan análisis territoriales más detallados.
+    
+    \item \textbf{Técnicas de aprendizaje automático}: Explorar el uso de algoritmos predictivos para identificar patrones complejos o factores de riesgo.
+    
+    \item \textbf{Exportación de reportes}: Desarrollar funcionalidades para generar reportes personalizados exportables.
+\end{itemize}
+
+\subsection{Ampliación del Análisis}
+El análisis podría expandirse en varias direcciones:
+
+\begin{itemize}
+    \item \textbf{Análisis longitudinal de cohortes}: Seguimiento de cohortes específicas a lo largo del tiempo cuando los datos lo permitan.
+    
+    \item \textbf{Análisis multifactorial}: Exploración de interacciones complejas entre múltiples factores educativos y contextuales.
+    
+    \item \textbf{Estudios de casos atípicos}: Investigación detallada de casos que muestran resultados significativamente diferentes a lo esperado según su contexto.
+    
+    \item \textbf{Integración con investigación cualitativa}: Complementar el análisis cuantitativo con hallazgos de investigaciones cualitativas sobre prácticas educativas efectivas.
+\end{itemize}
+
+\section{Recomendaciones para Usuarios}
+
+\subsection{Interpretación Contextualizada}
+Se recomienda a los usuarios del dashboard:
+
+\begin{itemize}
+    \item \textbf{Considerar el contexto}: Interpretar los resultados a la luz de las características socioeconómicas, históricas y culturales específicas.
+    
+    \item \textbf{Atender a las advertencias}: Prestar atención a las notas y advertencias sobre limitaciones de comparabilidad y representatividad.
+    
+    \item \textbf{Combinar fuentes}: Complementar la información del dashboard con otras fuentes de datos educativos.
+\end{itemize}
+
+\subsection{Uso para Mejora Educativa}
+Para un uso orientado a la mejora educativa:
+
+\begin{itemize}
+    \item \textbf{Enfoque en tendencias}: Priorizar el análisis de tendencias y patrones por encima de comparaciones puntuales.
+    
+    \item \textbf{Identificación de fortalezas}: Utilizar los datos para identificar fortalezas y prácticas efectivas, no solo áreas de mejora.
+    
+    \item \textbf{Base para indagación}: Considerar los hallazgos como punto de partida para investigaciones más profundas, no como conclusiones definitivas.
+    
+    \item \textbf{Participación de actores}: Involucrar a diversos actores educativos en la interpretación y uso de los datos para la toma de decisiones.
+\end{itemize}
+
+En conclusión, si bien el dashboard PLANEA proporciona una herramienta valiosa para el análisis del desempeño educativo en México, es fundamental reconocer sus limitaciones y utilizarlo de manera crítica y contextualizada, como un complemento —no un sustituto— del juicio profesional y la comprensión profunda de las realidades educativas locales.
